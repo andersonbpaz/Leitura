@@ -1,0 +1,20 @@
+#uma vantagem do arquivo nativo é sua velocidade de processamento, enquanto uma desvantagem do formato tabular é justamente sua menor velocidade de processamento
+
+# formato nativo do R
+saveRDS(sinistrosRecife2019Raw, "bases_tratadas/sinistrosRecife2019Raw.rds")
+
+# formato tabular 
+write.csv2(sinistrosRecife2019Raw, "bases_tratadas/sinistrosRecife2019Raw.csv")
+
+# carrega base em formato nativo
+sinistrosRecife2019Raw <- readRDS('bases_tratadas/sinistrosRecife2019Raw.rds')
+
+# carrega base em formato tabular 
+sinistrosRecife2019Raw <- read.csv2('bases_tratadas/sinistrosRecife2019Raw.csv', sep = ';')
+
+# compara os dois processos de exportação
+install.packages("microbenchmark")
+library(microbenchmark)
+microbenchmark(a <- saveRDS(sinistrosRecife2019Raw, "bases_tratadas/sinistrosRecife2019Raw.rds"), b <- write.csv2(sinistrosRecife2019Raw, "bases_tratadas/sinistrosRecife2019Raw.csv"), times = 30L)
+
+microbenchmark(a <- readRDS('bases_tratadas/sinistrosRecife2019Raw.rds'), b <- read.csv2('bases_tratadas/sinistrosRecife2019Raw.csv', sep = ';'), times = 10L) 
