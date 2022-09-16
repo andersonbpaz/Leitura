@@ -9,14 +9,17 @@ saveRDS(sinistrosRecife2019Raw, "bases_tratadas/sinistrosRecife2019Raw.rds")
 write.csv2(sinistrosRecife2019Raw, "bases_tratadas/sinistrosRecife2019Raw.csv")
 
 # carrega base em formato nativo
-sinistrosRecife2019Raw <- readRDS('bases_tratadas/sinistrosRecife2019Raw.rds')
+sinistrosRecife2019Raw <- readRDS('bases_tratadas/sinistrosRecife2019RawData.rds')
 
 # carrega base em formato tabular 
-sinistrosRecife2019Raw <- read.csv2('bases_tratadas/sinistrosRecife2019Raw.csv', sep = ';')
+sinistrosRecife2019Raw <- read.csv2('bases_tratadas/sinistrosRecife2019RawData.csv', sep = ';')
+
+# carrega base em formato xlsx
+write_xlsx(sinistrosRecife2019Raw, 'bases_tratadas/sinistrosRecife2019RawData.xlsx')
 
 # compara os dois processos de exportação
 install.packages("microbenchmark")
 library(microbenchmark)
-microbenchmark(a <- saveRDS(sinistrosRecife2019Raw, "bases_tratadas/sinistrosRecife2019Raw.rds"), b <- write.csv2(sinistrosRecife2019Raw, "bases_tratadas/sinistrosRecife2019Raw.csv"), times = 30L)
+microbenchmark(a <- saveRDS(sinistrosRecife2019Raw, "bases_tratadas/sinistrosRecife2019Raw.rds"), b <- write.csv2(sinistrosRecife2019Raw, "bases_tratadas/sinistrosRecife2019Raw.csv"), c <- write_xlsx(sinistrosRecife2019Raw, "bases_tratadas/sinistrosRecife2019RawData.xlsx")), times = 30L)
 
-microbenchmark(a <- readRDS('bases_tratadas/sinistrosRecife2019Raw.rds'), b <- read.csv2('bases_tratadas/sinistrosRecife2019Raw.csv', sep = ';'), times = 10L) 
+microbenchmark(a <- readRDS('bases_tratadas/sinistrosRecife2019Raw.rds'), b <- read.csv2('bases_tratadas/sinistrosRecife2019Raw.csv', sep = ';'), c <- read_excel(sinistrosRecife2019Raw, "bases_tratadas/sinistrosRecife2019RawData.xlsx", sheet=1)  times = 10L)
